@@ -111,6 +111,31 @@ Impact: Converted the web app into a multi-file C++17 Console Application (GameD
 
 Building & Compilation Issues:
 
-"Cannot compile and run the program" (PowerShell g++ CommandNotFoundException Screenshot)
+"Cannot compile and run the program" 
 
 Impact: Results in an automated PowerShell script to search and compile, and a win-get installation process (BrechtSanders.WinLibs.POSIX.UCRT).
+
+---
+
+## Vibe Coding Reflection
+
+### 1. What did AI do particularly well?
+AI performed admirably with **quick prototyping, language agnostic refactoring, and modular code design**. When switching the direction of the project from a Python/Flask application to a standalone C++17 console application, Gemini transformed the state machine, inventory system, and 3 part puzzle solving mechanics into a clean 3 file C++17 solution (`GameData.h`, `GameData.cpp`, and `main.cpp`) in one go. The segregation of the puzzle data from the rest of the game engine made the codebase easy to understand and build.
+
+### 2. What did AI do poorly?
+AI had trouble with **Windows based local environment assumptions while building the development toolchain**. During the C++ development process, the first set of instructions on setting up C++ in Visual Studio Code was dependent on the multi-step installation using MSYS2 and `pacman` combined with manual changes to the `PATH` for Windows. Since VS Code cached the environment variables until a restart and the compiler binaries were not yet available, running `g++` failed to compile the program. It required additional troubleshooting efforts from AI to provide a diagnostic PowerShell script and install command for `winget` (`BrechtSanders.WinLibs.POSIX.UCRT`).
+
+### 3. What process was followed to verify the AI-generated code?
+Verification was carried out via **local compilation and playthrough testing**: 
+* **Build Verification:** Compiled all .cpp files simultaneously with `g++ -std=c++17 main.cpp GameData.cpp -o protocol_zero.exe` flag set to C++17 to ensure that there were no linker issues, missing header files, or data types mismatch between all .cpp files.
+* **Functional & Progression Testing:** Tested all three levels (*"Server Room,"* *"Cryo-Cooling Corridor,"* and *"Exit Airlock") to confirm that the necessary items (*"Brass Key" and "UV Flashlight") unlocked gate actions and room progression correctly.
+* **Edge-Case & Input Testing:** Used invalid menu entries (like letters instead of digits) to verify that `std::cin` does not result in an endless loop and enter the solution code with additional spaces and upper-case letter for confirmation of trimming and upper case normalization work properly.
+
+### 4. What was the evolution of the prompts? 
+Initially, I was just **using broad and high-level prompts** such as simply pasting assignment requirements and minimal stack preferences ("*"Python, Flask, escape-room game")*. Of course, that resulted in a working prototype but with the architecture and setup provided by the AI itself.
+
+### 5. What did you learn?
+This project reinforced that **vibe coding shifts the developer's role from typing syntax to directing architecture, testing edge cases, and managing the local environment**. AI can generate clean data structures (`std::map`, `std::vector`, and custom `struct` models) and refactor across languages in seconds, but it cannot directly see your local machine's `PATH` configuration or verify runtime behavior on its own. Combining clear, iterative prompts with hands-on compilation and edge-case testing produces much more reliable software than relying on a single one-shot generation.
+
+### 6. Do you trust AI to build the entire application without human supervision?
+No—AI cannot be trusted to build, configure, and deploy an entire application without human supervision. Although AI provides immense speed in writing boilerplate code, module structuring, and translating the logic across different languages, it does not have the ability to sense the environment it is working in directly and cannot test its own code to spot any potential logic errors. In addition, it depends on the human to establish the scope of the project and the architectural preferences. During the course of this project, the involvement of human intervention was necessary in deciding when to change the tech stack from Python to C++, solve the problems of the local `g++` compiler and `PATH`, and ensure that the puzzle progression and input handling were properly implemented.
