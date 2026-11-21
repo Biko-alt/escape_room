@@ -117,6 +117,21 @@ Impact: Results in an automated PowerShell script to search and compile, and a w
 
 ---
 
+## Future Improvements
+
+In case Protocol Zero's development had proceeded further, I would add the following improvements:
+
+1. **Live Facility Lockdown Timer & Difficulty Levels (`<chrono>`):**
+   Introduce a feature to display real-time facility lockdown timer based on `std::chrono::steady_clock` along with the ability to select the game difficulty upon starting the game. The options available would be either *Standard Mode* (not timed, unlimited hints) or *Hardcore Mode* (5-minute countdown, no hints, and 3-try limit for entering the right code in the security keypad).
+
+2. **Game Saving & Loading Feature (`<fstream>`):**
+   Introduce a game saving/loading feature allowing users to persist their game progress by saving information about room id, item inventory, number of moves, and remaining time in a local `savegame.txt` file.
+
+3. **Room Pack Configuration Files (*.json; Data-Driven Levels):**
+   Separate game room and puzzle definitions from hardcoded C++ structs inside the `GameData.cpp` into the separate `.json` configuration files. This would allow to introduce and load custom escape-room scenarios and puzzles without having to recompile the `.exe`.
+
+---
+
 ## Vibe Coding Reflection
 
 ### 1. What did AI do particularly well?
